@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Mope
+GenericName=Music Player
+Comment=Music Organizer Player Etc. - browse by folder, play and tag your music
+Exec=mope
+Icon=mope
+Terminal=false
+Categories=AudioVideo;Audio;Player;
+Keywords=music;player;organizer;audio;flac;mp3;playlist;
+StartupNotify=true
+StartupWMClass=mope
