@@ -1,37 +1,6 @@
-# Mope (Qt / Windows port)
+# MOPE (Music Organizer, Player, Etc.)
 
-This is a PySide6 (Qt for Python) port of Mope — a personal music
-library, player, and tagger — originally built with GTK4 for Linux.
-This version runs natively on Windows, Linux, and macOS from the same
-codebase.
-
-## What changed vs. the GTK version
-
-Only the UI layer and the playback engine were rewritten:
-
-- `ui/` — rebuilt with PySide6 widgets (QMainWindow, QSplitter,
-  QTableWidget, QTreeView/QFileSystemModel, etc.) instead of GTK4/libadwaita.
-- `player.py` — uses Qt's `QMediaPlayer` / `QAudioOutput` instead of
-  GStreamer, so there's no separate GStreamer install needed on Windows.
-- Look and feel got a deliberate refresh rather than a strict 1:1 copy of
-  the GTK version's system-default Adwaita styling: a custom dark
-  gray + orange theme (`ui/theme.py`, applied app-wide) and real icon
-  files (`icons/*.svg`) in place of GTK's icon theme.
-
-Everything else is untouched, plain Python with no GTK dependency, and is
-shared byte-for-byte with the Linux version:
-
-- `library.py` — SQLite music library scanner/database
-- `playlist_manager.py` — M3U8 playlist read/write
-- `tagger.py` — MusicBrainz lookups + mutagen tag writing
-
-By default, the music database (`library.db`), playlists, and cached
-album art live under `~/.local/share/mope/` on whatever OS you're on —
-so if you ever run both versions against the same home directory (e.g.
-under WSL2), they share the same library and playlists. Window size and
-panel layout are saved separately per version (`window_state_qt.json`
-here, `window_state.json` for the GTK build), since the two UIs don't
-share layout concepts 1:1.
+This is a music organizer and player that defaults to utilizing local file structure to organize the user's library instead of ID tags. ID tags are great, but I didn't want 37 instanced of "Artist feat. *someotherperson*", I just wanted the reality which is *Artist* solely. Sounds dumb, but so few music players and organizers do this natively I just built one. 
 
 ## Setup
 
@@ -136,28 +105,4 @@ Confirmed working on **Windows 11**: install via python.org's installer,
 `install.bat` Start Menu shortcut, playback, next-track, shuffle,
 seeking, library persistence, and window size + position persistence.
 
-Not yet explicitly tested on either OS: playlists (create/rename/delete/
-export/import), the track right-click menu, and MusicBrainz tag fetching
-— these use the same toolkit-agnostic backend code as everything already
-confirmed, so there's no particular reason to expect trouble, but they
-haven't been run through by hand yet. Not tested at all on macOS.
-
-## Known differences from the GTK version
-
-- Icons are Material Symbols Outlined (play/pause/skip/shuffle) and
-  classic Material Icons (repeat/repeat-one/volume) SVGs bundled in
-  `icons/`, both Apache 2.0-licensed from Google — recolored orange to
-  match this version's theme, rather than GTK's system icon theme.
-- A custom dark gray + orange theme (`ui/theme.py`) is applied app-wide,
-  rather than inheriting whatever GTK/Adwaita theme the system had set.
-- The folder browser uses Qt's `QFileSystemModel`, which lazy-loads
-  directories natively — functionally equivalent to the GTK version's
-  hand-rolled lazy tree, just simpler under the hood.
-- Native file/folder pickers, confirmation dialogs, and text-entry prompts
-  use Qt's built-in dialogs (`QFileDialog`, `QMessageBox`, `QInputDialog`)
-  rather than GTK's, so they'll look like standard dialogs for your OS.
-- Window position (not just size) is saved and restored on X11 (Linux)
-  and Windows — a feature the GTK version never had, since GTK4
-  deliberately restricts window-positioning APIs. The same restriction
-  applies here if you're on a **Wayland** session instead of X11: it'll
-  silently fall back to default placement rather than error.
+Not tested at all on macOS.
