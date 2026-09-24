@@ -97,12 +97,17 @@ If you'd rather not use `install.sh`, or you're on macOS:
 
 ### First run
 
-Confirmed working on **Linux Mint (Cinnamon, X11)**: playback, seeking,
-shuffle, sequential track advancement, folder scanning, library
-persistence, and window/panel size + position persistence.
+Confirmed working on **Linux Mint (Cinnamon, X11)** and **Windows 11**:
 
-Confirmed working on **Windows 11**: install via python.org's installer,
-`install.bat` Start Menu shortcut, playback, next-track, shuffle,
-seeking, library persistence, and window size + position persistence.
+- Playback, seeking, shuffle, sequential track advancement, and repeat modes
+- Folder scanning, library persistence, and window/panel size + position persistence
+- Playlists: create, rename, delete, export, import, add-to-playlist and
+  remove-from-playlist via the track right-click menu
+- MusicBrainz tag fetching and album art
+- Breadcrumb folder navigation, recursive artist-folder browsing (an
+  artist folder shows every track across all its albums), and removing a
+  folder from the library index without a full rescan
+
+Not tested at all on macOS.
 
 Not tested at all on macOS.
