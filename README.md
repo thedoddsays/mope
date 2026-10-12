@@ -1,6 +1,20 @@
 # MOPE (Music Organizer, Player, Etc.)
 
-This is a music organizer and player that defaults to utilizing local file structure to organize the user's library instead of ID tags. ID tags are great, but I didn't want 37 instanced of "Artist feat. *someotherperson*", I just wanted the reality which is *Artist* solely. Sounds dumb, but so few music players and organizers do this natively I just built one. 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey)
+
+This is a music organizer and player that defaults to utilizing local file structure to organize the user's library instead of ID tags. ID tags are great, but I didn't want 37 instanced of "Artist feat. *someotherperson*", I just wanted the reality which is *Artist* solely. Sounds dumb, but so few music players and organizers do this natively I just built one.
+
+## Screenshots
+
+_Coming soon — drop your own screenshots or a short GIF into a `screenshots/`
+folder and reference them here, e.g.:_
+
+```markdown
+![Library view](screenshots/library.png)
+![Playback with shuffle/repeat active](screenshots/player-bar.png)
+```
 
 ## Setup
 
@@ -110,4 +124,6 @@ Confirmed working on **Linux Mint (Cinnamon, X11)** and **Windows 11**:
 
 Not tested at all on macOS.
 
-Not tested at all on macOS.
+## License
+
+MIT — see [LICENSE](LICENSE) for the full text.

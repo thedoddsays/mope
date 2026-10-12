@@ -27,7 +27,31 @@ class _NoEmptyExpandModel(QFileSystemModel):
     even ones with zero subdirectories (album folders, say, containing
     only audio/image files) — it doesn't check until you actually try to
     expand it. This override does a quick real check first, so leaf
-    folders correctly show no arrow at all."""
+    folders correctly show no arrow at all.
+
+    It also replaces the OS-supplied folder icon (the stock beige one on
+    Windows) with Mope's own orange folder, so the tree matches the rest
+    of the theme."""
+
+    def __init__(self):
+        super().__init__()
+        # Orange folder normally; dark folder when the row is selected,
+        # since selected rows are filled solid orange and an orange icon
+        # would disappear against that.
+        self._folder_icon = QIcon()
+        self._folder_icon.addFile(
+            str(_ICONS_DIR / "folder.svg"), QSize(), QIcon.Mode.Normal
+        )
+        self._folder_icon.addFile(
+            str(_ICONS_DIR / "folder_selected.svg"), QSize(), QIcon.Mode.Selected
+        )
+
+    def data(self, index, role=Qt.ItemDataRole.DisplayRole):
+        # This model is filtered to directories only (see FolderPanel), so
+        # every row in the name column is a folder.
+        if role == Qt.ItemDataRole.DecorationRole and index.column() == 0:
+            return self._folder_icon
+        return super().data(index, role)
 
     def hasChildren(self, parent):
         if not parent.isValid():
