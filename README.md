@@ -1,129 +1,94 @@
-# MOPE (Music Organizer, Player, Etc.)
+# Mope
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-lightgrey)
+**A music player that respects your folders.**
 
-This is a music organizer and player that defaults to utilizing local file structure to organize the user's library instead of ID tags. ID tags are great, but I didn't want 37 instanced of "Artist feat. *someotherperson*", I just wanted the reality which is *Artist* solely. Sounds dumb, but so few music players and organizers do this natively I just built one.
+Most music players build their library from metadata tags, so one artist turns into a dozen near-duplicates: `2Pac`, `2pac feat. Dr. Dre`, `2Pac & Outlawz`, `2pac ft. Someone Else`... Mope lets you browse your collection the way you already organized it on disk. If your music lives in `Music/2Pac/`, that's what you see: one folder, not 37 artist entries.
 
-## Screenshots
+Mope is a music library, player, and tagger in one small app. It runs on Linux, Windows, and macOS.
 
-_Coming soon — drop your own screenshots or a short GIF into a `screenshots/`
-folder and reference them here, e.g.:_
+<!-- Add a screenshot here: save it to the repo as screenshot.png -->
+![Mope screenshot](screenshot.png)
 
-```markdown
-![Library view](screenshots/library.png)
-![Playback with shuffle/repeat active](screenshots/player-bar.png)
-```
+## Features
 
-## Setup
+- **Folder-based browsing.** Navigate your collection by your own directory structure, not by messy or inconsistent tags.
+- **Music library.** Scans your folders into a local SQLite database, so your library loads quickly.
+- **Playback.** Play, pause, seek, skip, shuffle, repeat, repeat-one, and volume control.
+- **Playlists.** Create, rename, and delete playlists, with import and export as standard `.m3u8` files.
+- **Tagging.** Look up track info on MusicBrainz and write tags to your files, for when you *do* want to fix them.
+- **Remembers your layout.** Window size, position, and panel sizes are restored between sessions.
+- **Dark theme.** A dark gray and orange theme, applied consistently across the app.
 
-### Linux Mint / Ubuntu (app-menu install)
+## Installation
+
+Mope needs **Python 3.10 or newer**.
+
+### Linux (Mint / Ubuntu, with app-menu entry)
 
 ```bash
-chmod +x install.sh uninstall.sh   # zip extraction sometimes drops the executable bit
+git clone https://github.com/thedoddsays/mope.git
+cd mope
+chmod +x install.sh uninstall.sh
 ./install.sh
 ```
 
-This installs Mope to `~/.local/share/mope-qt` (kept separate from
-`~/.local/share/mope`, which is where your music database and playlists
-live — so if you ever also have the original GTK version installed, both
-would share the same library data), sets up a `mope` command, and adds a
-"Mope" entry to your app menu (Sound & Video category) so you can launch
-it without a terminal. It'll ask for your sudo password once, to install
-a couple of required system packages (including `libxcb-cursor0`, which
-Qt 6.5+ needs for its Linux display backend but many systems don't have
-by default).
+This installs Mope to `~/.local/share/mope-qt`, adds a `mope-qt` command, and puts a **Mope (Qt)** entry in your app menu under Sound & Video. It asks for your sudo password once to install a couple of required system packages, including `libxcb-cursor0`, which Qt 6.5+ needs on Linux but many systems don't have by default.
 
-`./uninstall.sh` removes the app, launcher, and menu entry again — it
-never touches your library database or playlists.
+To remove it, run `./uninstall.sh`. Your music database and playlists are never touched.
 
 ### Windows
 
-1. Install Python 3.10+ from [python.org](https://www.python.org/) if you
-   don't already have it — during install, check **"Add python.exe to PATH"**.
-2. Extract this zip somewhere convenient, e.g. `C:\Users\you\Projects\mope`.
-3. Open Command Prompt or PowerShell and `cd` into that folder:
-   ```
-   cd C:\Users\you\Projects\mope
-   ```
-4. Install dependencies:
+1. Install Python 3.10+ from [python.org](https://www.python.org/). During install, check **"Add python.exe to PATH"**.
+2. Get the code, either with `git clone https://github.com/thedoddsays/mope.git` or by clicking **Code → Download ZIP** on this page and extracting it somewhere convenient.
+3. Open Command Prompt or PowerShell in that folder and install the dependencies:
    ```
    pip install -r requirements.txt
    ```
-5. Run it:
+4. Run it:
    ```
    python main.py
    ```
 
-No MSYS2, no separate GTK or GStreamer install needed — PySide6 ships its
-own bundled Qt binaries, and QtMultimedia uses Windows Media Foundation as
-its native playback backend.
+There's no separate GTK or GStreamer install needed. PySide6 bundles its own Qt, and playback uses Windows' built-in media framework.
 
-#### Adding it to your Start Menu
+**Start Menu shortcut (optional):** once `python main.py` works, double-click `install.bat`. It creates a **Mope (Qt)** Start Menu shortcut that launches without leaving a console window open. The shortcut points at wherever you put the folder, so don't move or delete the folder afterward without re-running `install.bat`. Use `uninstall.bat` to remove the shortcut.
 
-Once the steps above are working (i.e. `python main.py` runs the app
-successfully), double-click **`install.bat`** in the project folder. It:
+Windows may show a SmartScreen warning the first time, because the script is unsigned. Click **More info → Run anyway**. If **Smart App Control** is on, it may block the `.bat` outright. In that case, paste the contents of `install.ps1` into a PowerShell window instead.
 
-- Creates a "Mope" shortcut in your Start Menu, using `mope.ico` as
-  its icon
-- Points that shortcut at `pythonw.exe` (not `python.exe`), so launching
-  it doesn't leave a console window open behind the app
-- Doesn't move, copy, or modify your project files — the shortcut just
-  points at wherever you extracted the zip, so don't delete/move that
-  folder afterward without re-running `install.bat`
+### macOS, or Linux without the installer
 
-Double-click **`uninstall.bat`** to remove the shortcut again. Windows
-may show a security prompt the first time you run either `.bat` file
-(SmartScreen warning for an unsigned script) — click "More info" then
-"Run anyway"; this is expected for any unsigned script you download
-rather than something specific to this one.
+```bash
+git clone https://github.com/thedoddsays/mope.git
+cd mope
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python3 main.py
+```
 
-If Windows 11's **Smart App Control** is turned on, it can block the
-`.bat` file outright with no "Run anyway" option at all (stricter than
-the regular SmartScreen prompt above). If that happens, either turn Smart
-App Control off (Windows Security → App & browser control → Smart App
-Control), or skip the `.bat` file and paste the contents of `install.ps1`
-directly into an open PowerShell window instead — typing/pasting commands
-yourself isn't treated the same way as running a downloaded script file.
+## Where your data lives
 
-### Linux (manual/terminal) / macOS
+Your library database (`library.db`), playlists, and cached album art are stored in `~/.local/share/mope/` on every OS. Uninstalling the app never deletes them.
 
-If you'd rather not use `install.sh`, or you're on macOS:
+## Testing status
 
-1. Make sure you have Python 3.10+ (`python3 --version`).
-2. Extract the zip and `cd` into it.
-3. Install dependencies — either directly:
-   ```bash
-   pip3 install -r requirements.txt --break-system-packages
-   ```
-   or inside a virtual environment (recommended if you don't want this
-   touching system-wide packages):
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   ```
-4. Run it:
-   ```bash
-   python3 main.py
-   ```
+**Confirmed working on Linux Mint (Cinnamon, X11):** playback, seeking, shuffle, track advancement, folder scanning, library persistence, and window and panel layout persistence.
 
-### First run
+**Confirmed working on Windows 11:** installation, Start Menu shortcut, playback, next track, shuffle, seeking, library persistence, and window layout persistence.
 
-Confirmed working on **Linux Mint (Cinnamon, X11)** and **Windows 11**:
+**Not yet tested by hand:** playlists (create, rename, delete, import, export), the track right-click menu, and MusicBrainz tag fetching. These use the same backend code as the confirmed features, so problems aren't expected, but they haven't been verified yet. **macOS** hasn't been tested at all.
 
-- Playback, seeking, shuffle, sequential track advancement, and repeat modes
-- Folder scanning, library persistence, and window/panel size + position persistence
-- Playlists: create, rename, delete, export, import, add-to-playlist and
-  remove-from-playlist via the track right-click menu
-- MusicBrainz tag fetching and album art
-- Breadcrumb folder navigation, recursive artist-folder browsing (an
-  artist folder shows every track across all its albums), and removing a
-  folder from the library index without a full rescan
+**Known limitation:** on Wayland, window *position* can't be restored (Wayland doesn't allow apps to place their own windows), so Mope falls back to default placement. Window size still works.
 
-Not tested at all on macOS.
+Bug reports are welcome. Please open an issue.
+
+## Built with
+
+- [PySide6](https://doc.qt.io/qtforpython-6/) (Qt for Python) for the interface and playback
+- [mutagen](https://mutagen.readthedocs.io/) for reading and writing tags
+- [MusicBrainz](https://musicbrainz.org/) for track metadata lookups
+- [Material Symbols and Material Icons](https://fonts.google.com/icons) by Google (Apache 2.0)
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for the full text.
+Released under the MIT License. See [LICENSE](LICENSE).
