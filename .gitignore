@@ -16,3 +16,17 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+ 
+# Local app state
+window_state*.json
+library.db
+ 
+# OS clutter
+.DS_Store
+Thumbs.db
